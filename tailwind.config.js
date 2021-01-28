@@ -3,6 +3,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      screens: {
+        xxs: "320px",
+        xs: "420px",
+      },
       colors: {
         primary: {
           100: "#cfd1d4",

@@ -1,15 +1,23 @@
 import { createContext, FC, useContext, useEffect, useState } from "react";
-import initFirebase from "./initFirebase";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
-import { removeToken, setToken } from "./token";
+import { removeToken, setToken } from "../utils";
+import "firebase/auth";
 
-initFirebase();
+const config = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+};
 
 interface IAuthContext {
   user: firebase.User | null;
   logout: () => void;
   authenticated: boolean;
+}
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
 }
 
 const AuthContext = createContext<IAuthContext>({

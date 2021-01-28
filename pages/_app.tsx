@@ -1,5 +1,5 @@
 import { AppProps } from "next/app";
-import { AuthProvider } from "src/auth/useAuth";
+import { AuthProvider } from "src/hooks";
 import Layout from "src/components/Layout";
 import "../styles/tailwind.scss";
 

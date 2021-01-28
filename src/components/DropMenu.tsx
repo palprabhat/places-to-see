@@ -10,8 +10,8 @@ interface IRenderTitleProps {
 }
 
 interface IRenderItemsProps {
-  closeOnItemSelect: Boolean;
   children: JSX.Element[];
+  closeOnItemSelect: Boolean;
 }
 
 interface IDropMenuProps {
@@ -46,17 +46,26 @@ const RenderItems: FC<IRenderItemsProps> = ({
 
   return (
     <>
-      {items.props.children.map((child: ReactNode, i: Number) => {
-        return (
-          <div
-            key={i.toString()}
-            className={`whitespace-no-wrap bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 ${items.props.className}`}
-            onClick={(e) => (!closeOnItemSelect ? e.stopPropagation() : null)}
-          >
-            {child}
-          </div>
-        );
-      })}
+      {!items.props.children.length ? (
+        <div
+          className={`whitespace-no-wrap bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 ${items.props.className}`}
+          onClick={(e) => (!closeOnItemSelect ? e.stopPropagation() : null)}
+        >
+          {items.props.children}
+        </div>
+      ) : (
+        items.props.children.map((child: ReactNode, i: Number) => {
+          return (
+            <div
+              key={i.toString()}
+              className={`whitespace-no-wrap bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 ${items.props.className}`}
+              onClick={(e) => (!closeOnItemSelect ? e.stopPropagation() : null)}
+            >
+              {child}
+            </div>
+          );
+        })
+      )}
     </>
   );
 };
