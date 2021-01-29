@@ -1,6 +1,6 @@
 import DropMenu from "./DropMenu";
 import { AiOutlineGithub } from "react-icons/ai";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { IoClose, IoLocationSharp, IoPerson } from "react-icons/io5";
 import { useAuth } from "../hooks";
 import FirebaseAuth from "./FirebaseAuth";

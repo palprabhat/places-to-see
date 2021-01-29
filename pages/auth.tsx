@@ -1,4 +1,6 @@
+import { GetServerSideProps, NextApiRequest } from "next";
 import FirebaseAuth from "../src/components/FirebaseAuth";
+import { loadIdToken } from "../src/auth/firebaseAdmin";
 
 const Auth = () => {
   return (
@@ -6,6 +8,20 @@ const Auth = () => {
       <FirebaseAuth />
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const uid = await loadIdToken(req.cookies?.token);
+
+  console.log(uid);
+
+  if (uid) {
+    res.setHeader("location", "/");
+    res.statusCode = 302;
+    res.end();
+  }
+
+  return { props: {} };
 };
 
 export default Auth;
