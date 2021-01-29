@@ -5,7 +5,7 @@ const Layout: FC = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="p-4 sm:p-8">{children}</main>
+      <main style={{ minHeight: "calc(100vh - 75px)" }}>{children}</main>
     </>
   );
 };

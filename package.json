@@ -17,6 +17,7 @@
     "react-dom": "17.0.1",
     "react-firebaseui": "^4.1.0",
     "react-icons": "^4.1.0",
+    "react-map-gl": "5.2.10",
     "sass": "^1.32.5"
   },
   "devDependencies": {

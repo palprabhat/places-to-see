@@ -1,10 +1,13 @@
-import Layout from "src/components/Layout";
+import Map from "../src/components/Map";
 
 export const Home = () => {
   return (
-    <>
-      <div>Hello</div>
-    </>
+    <div className="flex">
+      <div className="w-1/2">Hello</div>
+      <div className="w-1/2 h-full">
+        <Map />
+      </div>
+    </div>
   );
 };
 

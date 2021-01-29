@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextApiRequest } from "next";
+import { GetServerSideProps } from "next";
 import FirebaseAuth from "../src/components/FirebaseAuth";
 import { loadIdToken } from "../src/auth/firebaseAdmin";
 
