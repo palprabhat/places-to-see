@@ -13,8 +13,6 @@ const Auth = () => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const uid = await loadIdToken(req.cookies?.token);
 
-  console.log(uid);
-
   if (uid) {
     res.setHeader("location", "/");
     res.statusCode = 302;

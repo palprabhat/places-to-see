@@ -2,7 +2,7 @@ import DropMenu from "./DropMenu";
 import { AiOutlineGithub } from "react-icons/ai";
 import { FC } from "react";
 import { IoClose, IoLocationSharp, IoPerson } from "react-icons/io5";
-import { useAuth } from "../hooks";
+import { useAuth } from "../contexts";
 import FirebaseAuth from "./FirebaseAuth";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center py-5 px-4 md:px-8 shadow-sm bg-primary-700 border-b border-gray-900">
+      <nav className="flex justify-between items-center py-5 px-4 md:px-8 shadow-sm bg-blueGray-900 border-b border-gray-800">
         <Link href="/">
           <a>
             <IoLocationSharp fontSize="1.75rem" />
