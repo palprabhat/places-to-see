@@ -12,13 +12,14 @@ interface ITextArea
     TextareaHTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
   > {
-  register:
+  register?:
     | string
     | ((instance: HTMLTextAreaElement | null) => void)
     | RefObject<HTMLTextAreaElement>;
   name: string;
   error: FieldError;
   className?: string;
+  containerClassName?: string;
 }
 
 export const TextArea: FC<ITextArea> = ({
@@ -26,10 +27,11 @@ export const TextArea: FC<ITextArea> = ({
   name,
   error,
   className,
+  containerClassName,
   ...rest
 }) => {
   return (
-    <div className="my-2">
+    <div className={`my-2 w-full ${containerClassName}`}>
       <textarea
         name={name}
         ref={register}

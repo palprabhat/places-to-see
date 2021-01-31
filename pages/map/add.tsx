@@ -4,6 +4,7 @@ import { loadIdToken } from "../../src/auth/firebaseAdmin";
 import { Form } from "../../src/components/ui/Form";
 import { InputField } from "src/components/ui";
 import * as Yup from "yup";
+import LocationSearch from "src/components/LocationSearch";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Please provide the name"),
@@ -11,16 +12,24 @@ const validationSchema = Yup.object({
 
 const Add = () => {
   return (
-    <Form
-      onSubmit={() => console.log("submitted")}
-      validationSchema={validationSchema}
-      className="mx-auto flex flex-col items-center"
-      style={{ maxWidth: "480px" }}
-    >
-      <div>Add a new place</div>
-      <InputField name="name" />
-      <button>Submit</button>
-    </Form>
+    <>
+      <Form
+        onSubmit={() => console.log("submitted")}
+        validationSchema={validationSchema}
+        className="mx-auto flex flex-col items-center"
+        style={{ maxWidth: "480px" }}
+      >
+        <div>Add a new place</div>
+        <LocationSearch
+          defaultValue=""
+          onSelectAddress={({ address, lat, lng }) =>
+            console.log(address, lat, lng)
+          }
+        />
+        <InputField name="name" />
+        <button>Submit</button>
+      </Form>
+    </>
   );
 };
 
