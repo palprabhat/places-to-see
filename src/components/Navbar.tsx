@@ -7,17 +7,42 @@ import FirebaseAuth from "./FirebaseAuth";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
 import Link from "next/link";
+import { Button } from "./ui";
+import { externalUrls, urls } from "../consts/urls";
 
-const MenuItem: FC<{ onClick: () => void }> = ({ children, onClick }) => {
+interface IMenuItem {
+  onClick?: () => any;
+  asLink?: boolean;
+  href?: string;
+  target?: string;
+  rel?: string;
+}
+
+const MenuItem: FC<IMenuItem> = ({
+  children,
+  onClick,
+  asLink,
+  href,
+  target,
+  rel,
+}) => {
+  const className =
+    "flex justify-between items-center px-4 py-3 select-none cursor-pointer";
+
   return (
-    <div
-      className={
-        "flex justify-between items-center px-4 py-3 select-none cursor-pointer"
-      }
-      onClick={onClick}
-    >
-      <div className="mr-4">{children}</div>
-    </div>
+    <>
+      {asLink ? (
+        <Link href={href ?? ""}>
+          <a target={target} rel={rel} className={className}>
+            <div className="mr-4">{children}</div>
+          </a>
+        </Link>
+      ) : (
+        <div className={className} onClick={onClick}>
+          <div className="mr-4">{children}</div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -26,12 +51,15 @@ const Navbar = () => {
   const router = useRouter();
 
   const closeAuthModal = () => {
-    router.push("/");
+    router.push(urls.home);
   };
 
   return (
     <>
-      <nav className="flex justify-between items-center py-5 px-4 md:px-8 shadow-sm bg-blueGray-900 border-b border-gray-800">
+      <nav
+        className="flex justify-between items-center px-4 md:px-8 shadow-sm bg-blueGray-900 border-b border-gray-800"
+        style={{ minHeight: "75px" }}
+      >
         <Link href="/">
           <a>
             <IoLocationSharp fontSize="1.75rem" />
@@ -39,17 +67,15 @@ const Navbar = () => {
         </Link>
 
         <div className="flex justify-between items-center">
-          <a
-            href="https://github.com/palprabhat/places-to-see"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <AiOutlineGithub fontSize="1.75rem" />
-          </a>
+          {authenticated && router.pathname !== urls.addPlace && (
+            <Button asLink href={urls.addPlace}>
+              Add a new place
+            </Button>
+          )}
 
           {!authenticated ? (
-            router.pathname !== "/auth" ? (
-              <Link href="/?auth=true" as="/auth">
+            router.pathname !== urls.auth ? (
+              <Link href={`${urls.home}?auth=true`} as={urls.auth}>
                 <a
                   key="signin"
                   className="flex justify-center items-center px-3"
@@ -70,6 +96,14 @@ const Navbar = () => {
                 </div>
               </DropMenu.Title>
               <DropMenu.Items className="w-56">
+                <MenuItem
+                  asLink
+                  href={externalUrls.github}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <AiOutlineGithub fontSize="1.75rem" />
+                </MenuItem>
                 <MenuItem onClick={() => logout()}>Logout</MenuItem>
               </DropMenu.Items>
             </DropMenu>

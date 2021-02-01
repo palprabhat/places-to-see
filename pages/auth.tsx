@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
-import FirebaseAuth from "../src/components/FirebaseAuth";
-import { loadIdToken } from "../src/auth/firebaseAdmin";
+import FirebaseAuth from "src/components/FirebaseAuth";
+import { loadIdToken } from "src/auth/firebaseAdmin";
 
 const Auth = () => {
   return (
@@ -21,5 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   return { props: {} };
 };
+
+Auth.title = "Auth | Places to see";
 
 export default Auth;

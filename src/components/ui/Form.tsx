@@ -4,41 +4,38 @@ import {
   DetailedHTMLProps,
   FC,
   FormHTMLAttributes,
+  ReactPortal,
 } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+import {
+  FieldElement,
+  FieldErrors,
+  FieldValues,
+  Ref as ReactHookFormRef,
+} from "react-hook-form";
 
 interface IForm
   extends DetailedHTMLProps<
     FormHTMLAttributes<HTMLFormElement>,
     HTMLFormElement
   > {
-  children: JSX.Element[] | JSX.Element;
-  validationSchema: Yup.AnyObjectSchema;
-  onSubmit: () => void;
+  children: JSX.Element | JSX.Element[] | Array<JSX.Element | null>;
   className?: string;
+  register: (ref: (FieldElement & ReactHookFormRef) | null) => void;
+  errors: FieldErrors<FieldValues>;
 }
 
 export const Form: FC<IForm> = ({
-  validationSchema,
+  register,
+  errors,
   children,
-  onSubmit,
   className,
   ...rest
 }) => {
-  const resolver = yupResolver(validationSchema);
-  const methods = useForm({ resolver });
-  const { handleSubmit, register, errors } = methods;
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={`w-full ${className}`}
-      {...rest}
-    >
+    <form className={`w-full ${className}`} {...rest}>
       {Array.isArray(children)
         ? Children.map(children, (child) => {
+            if (!child) return null;
             return child.props.name
               ? createElement(child.type, {
                   ...{

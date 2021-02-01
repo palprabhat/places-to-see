@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, FC, InputHTMLAttributes, RefObject } from "react";
 import { FieldError } from "react-hook-form";
-import ErrorText from "./ErrorText";
+import { ErrorText } from "./ErrorText";
 
 interface IInputField
   extends DetailedHTMLProps<
@@ -31,9 +31,9 @@ export const InputField: FC<IInputField> = ({
         name={name}
         ref={register}
         {...rest}
-        className={`border-2 ${
+        className={`border-2 border-solid placeholder-gray-400 ${
           error && error.message ? "border-red-600" : "border-gray-700"
-        }  rounded-md w-full px-5 py-2 outline-none text-gray-900 ${className}`}
+        } rounded-md w-full px-5 py-2 outline-none text-gray-900 ${className}`}
       />
       <ErrorText>{error && error.message}</ErrorText>
     </div>

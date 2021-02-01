@@ -1,10 +1,11 @@
 import { FC, useState, useEffect, memo } from "react";
-import SearchBox, { OptionType } from "./ui/SearchBox";
+import { SearchBox, OptionType } from "./ui/SearchBox";
 import { useGoogleMapsScript, Libraries } from "use-google-maps-script";
 import usePlacesAutoComplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import { FieldError } from "react-hook-form";
 
 type address = {
   label: string;
@@ -13,6 +14,7 @@ type address = {
 };
 
 interface ILocationSearch {
+  error?: FieldError;
   defaultValue: string;
   onSelectAddress: ({
     address,
@@ -26,6 +28,7 @@ interface ILocationSearch {
 }
 
 const PlacesAutoComplete: FC<ILocationSearch> = ({
+  error,
   defaultValue,
   onSelectAddress,
 }) => {
@@ -63,7 +66,6 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
         const results = await getGeocode({ address: address.label });
         const { lat, lng } = await getLatLng(results[0]);
 
-        console.log(results);
         onSelectAddress({ address, lat, lng });
       } catch (error) {
         console.error(`😱 Error:`, error);
@@ -81,6 +83,7 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
       isLoading={loading}
       isDisabled={!ready}
       options={options}
+      error={error}
       onInputChange={(input) => setValue(input)}
       onChange={(address) => handleChange(address as address | null)}
     />
@@ -90,6 +93,7 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
 const libraries: Libraries = ["places"];
 
 const LocationSearch: FC<ILocationSearch> = ({
+  error,
   defaultValue,
   onSelectAddress,
 }) => {
@@ -105,6 +109,7 @@ const LocationSearch: FC<ILocationSearch> = ({
     <PlacesAutoComplete
       defaultValue={defaultValue}
       onSelectAddress={onSelectAddress}
+      error={error}
     />
   );
 };

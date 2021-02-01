@@ -5,7 +5,7 @@ import {
   TextareaHTMLAttributes,
 } from "react";
 import { FieldError } from "react-hook-form";
-import ErrorText from "./ErrorText";
+import { ErrorText } from "./ErrorText";
 
 interface ITextArea
   extends DetailedHTMLProps<
@@ -17,7 +17,7 @@ interface ITextArea
     | ((instance: HTMLTextAreaElement | null) => void)
     | RefObject<HTMLTextAreaElement>;
   name: string;
-  error: FieldError;
+  error?: FieldError;
   className?: string;
   containerClassName?: string;
 }
@@ -35,8 +35,11 @@ export const TextArea: FC<ITextArea> = ({
       <textarea
         name={name}
         ref={register}
+        rows={4}
         {...rest}
-        className={`border-none rounded-3xl px-4 py-2 w-full outline-none resize-none ${className}`}
+        className={`border-2 border-solid placeholder-gray-400 ${
+          error && error.message ? "border-red-600" : "border-gray-700"
+        }  rounded-md w-full px-5 py-2 outline-none text-gray-900 ${className}`}
       />
       <ErrorText>{error && error.message}</ErrorText>
     </div>

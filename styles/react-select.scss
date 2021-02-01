@@ -1,0 +1,43 @@
+.react-select__control {
+  min-height: 44px !important;
+  @apply border-2 #{!important};
+  @apply border-solid #{!important};
+  @apply border-gray-700 #{!important};
+  @apply rounded-md #{!important};
+  @apply outline-none #{!important};
+  @apply shadow-none #{!important};
+  @apply text-base #{!important};
+  @apply pl-5 #{!important};
+
+  &:hover {
+    @apply border-gray-700 #{!important};
+  }
+}
+
+.react-select__value-container {
+  @apply px-0 #{!important};
+
+  > div:last-child {
+    @apply mx-0 #{!important};
+  }
+}
+
+.react-select__single-value {
+  @apply mx-0 #{!important};
+  @apply px-0 #{!important};
+  @apply font-sans #{!important};
+  @apply text-base #{!important};
+  @apply text-gray-900 #{!important};
+}
+
+.react-select__placeholder {
+  @apply mx-0 #{!important};
+  @apply px-0 #{!important};
+  @apply text-gray-400 #{!important};
+}
+
+.react-select-error {
+  > .react-select__control {
+    @apply border-red-600 #{!important};
+  }
+}

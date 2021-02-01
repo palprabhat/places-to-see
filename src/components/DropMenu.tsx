@@ -88,12 +88,12 @@ const DropMenu: DropMenuFC<IDropMenuProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <button
+      <div
         className="select-none outline-none focus:outline-none"
         onClick={() => setOpen(!open)}
       >
         <RenderTitle>{children}</RenderTitle>
-      </button>
+      </div>
 
       <AnimatePresence>
         {open && (
