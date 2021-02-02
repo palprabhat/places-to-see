@@ -3,7 +3,7 @@ import { NextApiRequest } from "next";
 
 const verifyIdToken = (token: string) => {
   const firebasePvtKey: string = process.env.FIREBASE_PRIVATE_KEY.replace(
-    "/\\n/",
+    /\\n/g,
     "\n"
   );
 
