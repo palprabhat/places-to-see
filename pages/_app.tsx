@@ -15,8 +15,6 @@ type additionalType = {
 type AppProps<P = {}> = AppInitialProps & {
   Component: NextComponentType<NextPageContext, any, P> & additionalType;
   router: Router;
-  __N_SSG?: boolean | undefined;
-  __N_SSP?: boolean | undefined;
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
