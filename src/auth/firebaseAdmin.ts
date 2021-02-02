@@ -1,7 +1,7 @@
 import * as admin from "firebase-admin";
 import { NextApiRequest } from "next";
 
-const verifyIdToken = (token: string) => {
+const verifyIdToken = async (token: string) => {
   const firebasePvtKey: string = process.env.FIREBASE_PRIVATE_KEY.replace(
     /\\n/g,
     "\n"

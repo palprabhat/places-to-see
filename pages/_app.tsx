@@ -6,6 +6,8 @@ import "../styles/tailwind.scss";
 import "../styles/react-select.scss";
 import { NextComponentType, NextPageContext } from "next";
 import { Router } from "next/router";
+import { ApolloProvider } from "@apollo/client";
+import { useApollo } from "src/apollo";
 
 type additionalType = {
   title: string;
@@ -18,6 +20,7 @@ type AppProps<P = {}> = AppInitialProps & {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const client = useApollo();
   return (
     <>
       <Head>
@@ -29,9 +32,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <AuthProvider>
-        <Layout withMapView={Component.withMapView}>
-          <Component {...pageProps} />
-        </Layout>
+        <ApolloProvider client={client}>
+          <Layout withMapView={Component.withMapView}>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
       </AuthProvider>
     </>
   );

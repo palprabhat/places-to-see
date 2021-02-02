@@ -67,8 +67,10 @@ const Add = () => {
     setValue,
     getValues,
     watch,
+    trigger,
   } = useForm<IFormData>({
     resolver: yupResolver(validationSchema),
+    mode: "onTouched",
   });
 
   useEffect(() => {
@@ -123,7 +125,11 @@ const Add = () => {
           }}
           error={errors?.address || errors?.lat || errors?.lng}
         />
-        <FileInput name="images" label="Click to add image" />
+        <FileInput
+          name="images"
+          label="Click to add image"
+          onBlur={() => trigger("images")}
+        />
         {previewImage ? (
           <img
             src={previewImage}
@@ -144,6 +150,7 @@ const Add = () => {
               shouldDirty: true,
             });
           }}
+          onBlur={() => trigger("placeType")}
         />
         <TextArea name="description" placeholder="About this place" />
 
