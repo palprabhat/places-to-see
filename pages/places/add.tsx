@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextApiRequest } from "next";
 import { loadIdToken } from "src/auth/firebaseAdmin";
 import {
   FileInput,
@@ -156,7 +156,7 @@ const Add = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const uid = await loadIdToken(req.cookies?.token);
+  const uid = await loadIdToken(req as NextApiRequest);
 
   if (!uid) {
     res.setHeader("location", "/auth");

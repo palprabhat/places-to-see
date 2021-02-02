@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextApiRequest } from "next";
 import FirebaseAuth from "src/components/FirebaseAuth";
 import { loadIdToken } from "src/auth/firebaseAdmin";
 
@@ -11,7 +11,7 @@ const Auth = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const uid = await loadIdToken(req.cookies?.token);
+  const uid = await loadIdToken(req as NextApiRequest);
 
   if (uid) {
     res.setHeader("location", "/");

@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import { NextApiRequest } from "next";
 
 const verifyIdToken = (token: string) => {
   const firebasePvtKey: string = process.env.FIREBASE_PRIVATE_KEY.replace(
@@ -22,10 +23,12 @@ const verifyIdToken = (token: string) => {
     .catch(() => null);
 };
 
-export const loadIdToken = async (token: string): Promise<string | null> => {
-  if (!token) return null;
+export const loadIdToken = async (
+  req: NextApiRequest
+): Promise<string | null> => {
+  if (!req.cookies.token) return null;
 
-  const decoded = await verifyIdToken(token);
+  const decoded = await verifyIdToken(req.cookies.token);
 
   if (!decoded) return null;
   return decoded.uid;
