@@ -26,7 +26,7 @@ export const InputField: FC<IInputField> = ({
   ...rest
 }) => {
   return (
-    <div className={`my-2 w-full ${containerClassName}`}>
+    <div className={`mt-2 w-full ${containerClassName}`}>
       <input
         name={name}
         ref={register}

@@ -65,7 +65,7 @@ export const SelectBox: FC<ISelectBox> = ({
   }, [value]);
 
   return (
-    <div className={`my-2 w-full text-gray-900 ${containerClassName}`}>
+    <div className={`mt-2 w-full text-gray-900 ${containerClassName}`}>
       <ReactSelect
         ref={register}
         name={name}

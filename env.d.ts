@@ -9,6 +9,7 @@ declare namespace NodeJS {
     CLOUDINARY_SECRET: string;
     NEXT_PUBLIC_CLOUDINARY_KEY: string;
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
+    NEXT_PUBLIC_CLOUDINARY_API_BASE_URL: string;
     DATABASE_URL: string;
   }
 }

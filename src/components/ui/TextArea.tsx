@@ -31,7 +31,7 @@ export const TextArea: FC<ITextArea> = ({
   ...rest
 }) => {
   return (
-    <div className={`my-2 w-full ${containerClassName}`}>
+    <div className={`mt-2 w-full ${containerClassName}`}>
       <textarea
         name={name}
         ref={register}

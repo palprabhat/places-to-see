@@ -13,15 +13,23 @@ import * as Yup from "yup";
 import LocationSearch from "src/components/LocationSearch";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@apollo/client";
+import {
+  CREATE_IMAGE_SIGNATURE_MUTATION,
+  CREATE_PLACE_MUTATION,
+} from "src/gql";
+import { CreateSignatureMutation } from "src/generated/CreateSignatureMutation";
+import { CreatePlaceMutation } from "src/generated/CreatePlaceMutation";
+import { useToasts } from "react-toast-notifications";
 
 interface IFormData {
   placeName: string;
   placeType: string;
   description: string;
   address: string;
-  lat: number;
-  lng: number;
-  images: FileList;
+  latitude: number;
+  longitude: number;
+  image: FileList;
 }
 
 const validationSchema = Yup.object({
@@ -31,15 +39,15 @@ const validationSchema = Yup.object({
     "Please provide a description for this place"
   ),
   address: Yup.string().required("Please select an address"),
-  lat: Yup.number()
+  latitude: Yup.number()
     .required("Please select an address")
     .min(-90, "")
     .max(90, ""),
-  lng: Yup.number()
+  longitude: Yup.number()
     .required("Please select an address")
     .min(-180, "")
     .max(180, ""),
-  images: Yup.mixed()
+  image: Yup.mixed()
     .required("Please add an image")
     .test("fileRequired", "Please add an image", (value) => {
       return value.length > 0;
@@ -56,10 +64,46 @@ const validationSchema = Yup.object({
       return value?.type?.match(/^image\/.*$/);
     }),
 });
+interface IUploadImageResponse {
+  secure_url?: string;
+  error?: {
+    message: string;
+  };
+}
+
+const uploadImage = async (
+  image: File,
+  signature: string,
+  timestamp: number
+): Promise<IUploadImageResponse> => {
+  const url = `${process.env.NEXT_PUBLIC_CLOUDINARY_API_BASE_URL}/upload`;
+
+  const formData = new FormData();
+  formData.append("file", image);
+  formData.append("signature", signature);
+  formData.append("timestamp", timestamp.toString() + "sf");
+  formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY ?? "");
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+    return data;
+  } catch (err) {
+    throw new Error(err.message ?? err);
+  }
+};
 
 const Add = () => {
+  const { addToast } = useToasts();
   const [previewImage, setPreviewImage] = useState<string>("");
-
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const {
     handleSubmit,
     register,
@@ -73,17 +117,23 @@ const Add = () => {
     mode: "onTouched",
   });
 
+  const [createSignature] = useMutation<CreateSignatureMutation>(
+    CREATE_IMAGE_SIGNATURE_MUTATION
+  );
+
+  const [createPlace] = useMutation<CreatePlaceMutation>(CREATE_PLACE_MUTATION);
+
   useEffect(() => {
     register({ name: "address" });
-    register({ name: "lat" });
-    register({ name: "lng" });
+    register({ name: "latitude" });
+    register({ name: "longitude" });
     register({ name: "placeType" });
   }, [register]);
 
   useEffect(() => {
-    const images = watch("images");
-    if (images.length > 0) {
-      const file = images[0] as File;
+    const image = watch("image");
+    if (image.length > 0) {
+      const file = image[0] as File;
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
@@ -92,7 +142,80 @@ const Add = () => {
     } else {
       setPreviewImage("");
     }
-  }, [watch("images")]);
+  }, [watch("image")]);
+
+  const onSubmit = async (data: IFormData) => {
+    setSubmitting(true);
+    try {
+      const {
+        data: signatureData,
+        errors: signatureErrors,
+      } = await createSignature();
+
+      if (signatureErrors && signatureErrors.length) {
+        signatureErrors.map((error) => {
+          throw new Error(
+            error.message ?? "Something went wrong! Please try again later"
+          );
+        });
+      }
+
+      if (signatureData) {
+        const { signature, timestamp } = signatureData.createImageSignature;
+        const imageData = await uploadImage(
+          data.image[0] as File,
+          signature,
+          timestamp
+        );
+
+        if (imageData.error) {
+          throw new Error(
+            imageData.error.message ??
+              "Something went wrong! Please try again later"
+          );
+        } else {
+          const { data: placeData, errors: placceErrors } = await createPlace({
+            variables: {
+              input: {
+                placeName: data.placeName,
+                placeType: data.placeType,
+                description: data.description,
+                address: data.address,
+                image: imageData.secure_url,
+                coordinates: {
+                  latitude: data.latitude,
+                  longitude: data.longitude,
+                },
+              },
+            },
+          });
+
+          if (placceErrors && placceErrors.length) {
+            placceErrors.map((error) => {
+              throw new Error(
+                error.message ?? "Something went wrong! Please try again later"
+              );
+            });
+          }
+
+          if (placeData?.createPlace?.id) {
+            addToast("Place added successfully", {
+              appearance: "success",
+            });
+          } else {
+            throw new Error("Something went wrong! Please try again later");
+          }
+        }
+      }
+    } catch (err) {
+      console.error(`😱: ${err}`);
+      addToast(err.message ?? "Something went wrong! Please try again later.", {
+        appearance: "error",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div
@@ -100,7 +223,7 @@ const Add = () => {
       style={{ height: "calc(100vh - 75px)" }}
     >
       <Form
-        onSubmit={handleSubmit((data) => console.log("data", data))}
+        onSubmit={handleSubmit(onSubmit)}
         className="mx-auto flex flex-col items-center"
         style={{ maxWidth: "480px" }}
         register={register}
@@ -114,21 +237,21 @@ const Add = () => {
               shouldValidate: true,
               shouldDirty: true,
             });
-            setValue("lat", lat, {
+            setValue("latitude", lat, {
               shouldValidate: true,
               shouldDirty: true,
             });
-            setValue("lng", lng, {
+            setValue("longitude", lng, {
               shouldValidate: true,
               shouldDirty: true,
             });
           }}
-          error={errors?.address || errors?.lat || errors?.lng}
+          error={errors?.address || errors?.latitude || errors?.longitude}
         />
         <FileInput
-          name="images"
+          name="image"
           label="Click to add image"
-          onBlur={() => trigger("images")}
+          onBlur={() => trigger("image")}
         />
         {previewImage ? (
           <img
@@ -154,7 +277,7 @@ const Add = () => {
         />
         <TextArea name="description" placeholder="About this place" />
 
-        <Button type="submit" className="mt-4 w-full">
+        <Button type="submit" className="mt-4 w-full" disabled={submitting}>
           Submit
         </Button>
       </Form>

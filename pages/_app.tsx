@@ -8,6 +8,7 @@ import { NextComponentType, NextPageContext } from "next";
 import { Router } from "next/router";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "src/apollo";
+import { ToastProvider } from "react-toast-notifications";
 
 type additionalType = {
   title: string;
@@ -33,9 +34,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <AuthProvider>
         <ApolloProvider client={client}>
-          <Layout withMapView={Component.withMapView}>
-            <Component {...pageProps} />
-          </Layout>
+          <ToastProvider
+            autoDismiss={true}
+            autoDismissTimeout={4000}
+            transitionDuration={150}
+          >
+            <Layout withMapView={Component.withMapView}>
+              <Component {...pageProps} />
+            </Layout>
+          </ToastProvider>
         </ApolloProvider>
       </AuthProvider>
     </>

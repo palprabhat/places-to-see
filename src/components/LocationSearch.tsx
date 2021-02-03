@@ -67,8 +67,8 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
         const { lat, lng } = await getLatLng(results[0]);
 
         onSelectAddress({ address, lat, lng });
-      } catch (error) {
-        console.error(`😱 Error:`, error);
+      } catch (err) {
+        console.error(`😱: ${err}`);
       }
     } else {
       clearSuggestions();

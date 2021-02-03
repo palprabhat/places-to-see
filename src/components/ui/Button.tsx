@@ -22,7 +22,7 @@ export const Button: FC<IButton> = ({
   rel,
   ...props
 }) => {
-  const btnClass = `border-none bg-purple-700 hover:bg-purple-800 transition duration-150 ease text-white px-5 py-3 rounded-md select-none outline-none focus:outline-none active:bg-purple-900 ${className}`;
+  const btnClass = `border-none bg-purple-700 hover:bg-purple-800 transition duration-150 ease text-white px-5 py-3 rounded-md select-none outline-none focus:outline-none active:bg-purple-900 disabled:bg-purple-400 disabled:cursor-not-allowed ${className}`;
 
   return (
     <>

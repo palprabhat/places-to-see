@@ -3,6 +3,42 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input Coordinates {
+  latitude: Float!
+  longitude: Float!
+}
+
+type ImageSignature {
+  signature: String!
+  timestamp: Int!
+}
+
+type Mutation {
+  createImageSignature: ImageSignature!
+  createPlace(input: PlaceInput!): Place
+}
+
+type Place {
+  address: String!
+  description: String!
+  id: ID!
+  image: String!
+  latitude: Int!
+  longitude: Int!
+  placeName: String!
+  placeType: String!
+  publicId: String!
+}
+
+input PlaceInput {
+  address: String!
+  coordinates: Coordinates!
+  description: String!
+  image: String!
+  placeName: String!
+  placeType: String!
+}
+
 type Query {
   hello: String!
 }

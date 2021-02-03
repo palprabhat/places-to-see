@@ -61,7 +61,7 @@ export const FileInput: FC<IFileInput> = ({
   };
 
   return (
-    <div className={`my-2 w-full ${containerClassName}`}>
+    <div className={`mt-2 w-full ${containerClassName}`}>
       <label
         htmlFor={name}
         className={`w-full p-5 border-dashed border-4 block cursor-pointer rounded-md ${
