@@ -1,4 +1,4 @@
-import { DragEvent, FC, RefObject } from "react";
+import { FC, RefObject } from "react";
 import { FieldError } from "react-hook-form";
 import { ErrorText } from "./ErrorText";
 
