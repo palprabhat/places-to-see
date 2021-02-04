@@ -1,14 +1,20 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import ReactMapGL, { ViewState } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useLocalStorage } from "src/hooks";
+
+const PREFIX = "places_to_see_";
 
 const Map = () => {
   const mapRef = useRef<ReactMapGL | null>();
-  const [viewport, setViewport] = useState<ViewState>({
-    latitude: 47.6062,
-    longitude: -122.3321,
-    zoom: 11,
-  });
+  const [viewport, setViewport] = useLocalStorage<ViewState>(
+    `${PREFIX}viewport`,
+    {
+      latitude: 47.6062,
+      longitude: -122.3321,
+      zoom: 11,
+    }
+  );
 
   return (
     <div className="relative">

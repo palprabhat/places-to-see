@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Art gallery",
+    "value": "art-gallery"
+  },
+  {
+    "label": "Campground",
+    "value": "campground"
+  }
+  point-of-interest
+  stadium
+  museum
+  natural-feature
+]

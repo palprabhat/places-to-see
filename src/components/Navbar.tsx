@@ -1,5 +1,4 @@
-import DropMenu from "./DropMenu";
-import { AiOutlineGithub } from "react-icons/ai";
+import DropMenu from "./ui/DropMenu";
 import { FC } from "react";
 import { IoClose, IoLocationSharp, IoPerson } from "react-icons/io5";
 import { useAuth } from "../contexts";
@@ -8,7 +7,7 @@ import { useRouter } from "next/router";
 import Modal from "./Modal";
 import Link from "next/link";
 import { Button } from "./ui";
-import { externalUrls, urls } from "../consts/urls";
+import { urls } from "../consts/urls";
 
 interface IMenuItem {
   onClick?: () => any;
@@ -67,7 +66,7 @@ const Navbar = () => {
         </Link>
 
         <div className="flex justify-between items-center">
-          {authenticated && router.pathname !== urls.addPlace && (
+          {authenticated && router.pathname === urls.home && (
             <Button asLink href={urls.addPlace}>
               Add a new place
             </Button>
@@ -96,14 +95,14 @@ const Navbar = () => {
                 </div>
               </DropMenu.Title>
               <DropMenu.Items className="w-56">
-                <MenuItem
+                {/* <MenuItem
                   asLink
                   href={externalUrls.github}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <AiOutlineGithub fontSize="1.75rem" />
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={() => logout()}>Logout</MenuItem>
               </DropMenu.Items>
             </DropMenu>

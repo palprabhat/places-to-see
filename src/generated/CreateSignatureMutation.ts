@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { AuthenticationError } from "apollo-server-micro";
-
 // ====================================================
 // GraphQL mutation operation: CreateSignatureMutation
 // ====================================================

@@ -49,7 +49,7 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
     const opt = data.map((prediction) => {
       return {
         label: prediction.description,
-        value: prediction.place_id,
+        value: prediction.description,
         structured_formatting: prediction.structured_formatting,
       };
     });
@@ -84,6 +84,7 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
       isDisabled={!ready}
       options={options}
       error={error}
+      defaultValue={{ label: defaultValue, value: defaultValue }}
       onInputChange={(input) => setValue(input)}
       onChange={(address) => handleChange(address as address | null)}
     />

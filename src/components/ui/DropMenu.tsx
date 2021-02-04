@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { findByType } from "../utils";
+import { findByType } from "../../utils";
 
 type Title = FC;
 type Items = FC<{ className?: string }>;
