@@ -1,4 +1,3 @@
-import { AuthenticationError } from "apollo-server-micro";
 import {
   Authorized,
   Field,
