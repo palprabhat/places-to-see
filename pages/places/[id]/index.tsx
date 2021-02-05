@@ -146,7 +146,7 @@ const PlaceId: PlaceIdFC = () => {
           </div>
         </div>
         <div className="w-1/2 h-full">
-          <CurrentMap place={place} />
+          <CurrentMap place={place} nearby={place.nearby} />
         </div>
       </div>
 

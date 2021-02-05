@@ -8,10 +8,12 @@ interface IPlace {
   id: string;
   latitude: number;
   longitude: number;
-  nearby: IPlace[];
 }
 
-const CurrentMap: FC<{ place: IPlace }> = ({ place }) => {
+const CurrentMap: FC<{ place: IPlace; nearby: IPlace[] }> = ({
+  place,
+  nearby,
+}) => {
   const mapRef = useRef<ReactMapGL | null>();
   const [viewport, setViewport] = useState<ViewState>({
     latitude: place.latitude,
@@ -36,7 +38,7 @@ const CurrentMap: FC<{ place: IPlace }> = ({ place }) => {
           <NavigationControl showCompass={false} />
         </div>
 
-        {place.nearby.map((nearPlace) => (
+        {nearby.map((nearPlace) => (
           <Marker
             latitude={nearPlace.latitude}
             longitude={nearPlace.longitude}
@@ -60,7 +62,7 @@ const CurrentMap: FC<{ place: IPlace }> = ({ place }) => {
           offsetTop={-20}
           className="hover:z-10"
         >
-          <IoLocationSharp className="text-3xl text-red-400 hover:text-red-600 cursor-pointer transform transition-all hover:scale-125 hover:-translate-y-1 hover:z-10" />
+          <IoLocationSharp className="text-3xl text-red-400 hover:text-red-600 cursor-pointer transform transition-all hover:scale-125 hover:-translate-y-1" />
         </Marker>
       </ReactMapGL>
     </div>
