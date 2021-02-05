@@ -1,4 +1,5 @@
 import { Max, Min } from "class-validator";
+import { getBoundsOfDistance } from "geolib";
 import {
   Arg,
   Authorized,
@@ -78,6 +79,26 @@ class Place {
   publicId(): string {
     const parts = this.image.split("/");
     return parts[parts.length - 1] ?? "";
+  }
+
+  @Field((_type) => [Place])
+  async nearby(@Ctx() ctx: Context) {
+    const bounds = getBoundsOfDistance(
+      {
+        latitude: this.latitude,
+        longitude: this.longitude,
+      },
+      10000
+    );
+
+    return ctx.prisma.place.findMany({
+      where: {
+        latitude: { gte: bounds[0]?.latitude, lte: bounds[1]?.latitude },
+        longitude: { gte: bounds[0]?.longitude, lte: bounds[1]?.longitude },
+        id: { not: { equals: this.id } },
+      },
+      take: 30,
+    });
   }
 }
 

@@ -96,7 +96,7 @@ const uploadImage = async (
   const formData = new FormData();
   formData.append("file", image);
   formData.append("signature", signature);
-  formData.append("timestamp", timestamp.toString() + "sf");
+  formData.append("timestamp", timestamp.toString());
   formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY ?? "");
 
   try {

@@ -27,6 +27,7 @@ type Place {
   image: String!
   latitude: Float!
   longitude: Float!
+  nearby: [Place!]!
   placeName: String!
   placeType: String!
   publicId: String!

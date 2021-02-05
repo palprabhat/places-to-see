@@ -15,9 +15,10 @@ import Modal from "src/components/Modal";
 import {
   DeletePlaceMutation,
   DeletePlaceMutationVariables,
-} from "../../../src/generated/DeletePlaceMutation";
+} from "src/generated/DeletePlaceMutation";
 import { useToasts } from "react-toast-notifications";
 import { urls } from "src/consts/urls";
+import CurrentMap from "src/components/CurrentMap";
 
 type PlaceIdFC<P = {}> = FC<P> & additionalType;
 
@@ -84,60 +85,71 @@ const PlaceId: PlaceIdFC = () => {
       <Head>
         <title>{place.address} | Places to see</title>
       </Head>
-      <div
-        className="overflow-y-scroll p-8 pt-4 mx-auto"
-        style={{ maxWidth: "780px", height: "calc(100vh - 75px)" }}
-      >
-        <div className="flex justify-end space-x-4 mt-1">
-          {editMode ? (
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
-          ) : (
-            <>
-              <Button className="text-2xl" onClick={() => setEditMode(true)}>
-                <MdEdit />
-              </Button>
-              <Button
-                variant="danger"
-                className="text-2xl"
-                onClick={() => setShowDeleteModal(true)}
-              >
-                <MdDelete />
-              </Button>
-            </>
-          )}
-        </div>
-        {editMode ? (
-          <PlaceForm
-            place={place}
-            onSubmitted={() => {
-              refetch();
-              setEditMode(false);
-            }}
-          />
-        ) : (
-          <div className="flex flex-col items-start mt-4">
-            <h2 className="text-3xl">{place.placeName}</h2>
-            <p className="mt-1 text-sm text-gray-400">{place.placeType}</p>
-            <div className="flex items-center mt-2">
-              <IoLocationSharp className="mr-2" /> {place.address}
+      <div className="flex">
+        <div className="w-1/2">
+          <div
+            className="overflow-y-scroll p-8 pt-4 mx-auto"
+            style={{ maxWidth: "780px", height: "calc(100vh - 75px)" }}
+          >
+            <div className="flex justify-end space-x-4 mt-1">
+              {editMode ? (
+                <Button onClick={() => setEditMode(false)}>Cancel</Button>
+              ) : (
+                <>
+                  <Button
+                    className="text-2xl"
+                    onClick={() => setEditMode(true)}
+                  >
+                    <MdEdit />
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="text-2xl"
+                    onClick={() => setShowDeleteModal(true)}
+                  >
+                    <MdDelete />
+                  </Button>
+                </>
+              )}
             </div>
-            <Image
-              className="object-cover w-full rounded-md mt-6"
-              cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-              publicId={place.publicId}
-              alt={place.placeName}
-              secure
-              dpr="auto"
-              quality="auto"
-              width={900}
-              height={Math.floor((9 / 16) * 900)}
-              crop="fill"
-              gravity="auto"
-            />
-            <p className="text-sm mt-4">{place.description}</p>
+            {editMode ? (
+              <PlaceForm
+                place={place}
+                onSubmitted={() => {
+                  refetch();
+                  setEditMode(false);
+                }}
+              />
+            ) : (
+              <div className="flex flex-col items-start mt-4">
+                <h2 className="text-3xl">{place.placeName}</h2>
+                <p className="mt-1 text-sm text-gray-400">{place.placeType}</p>
+                <div className="flex items-center mt-2">
+                  <IoLocationSharp className="mr-2" /> {place.address}
+                </div>
+                <Image
+                  className="object-cover w-full rounded-md mt-6"
+                  cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+                  publicId={place.publicId}
+                  alt={place.placeName}
+                  secure
+                  dpr="auto"
+                  quality="auto"
+                  width={900}
+                  height={Math.floor((9 / 16) * 900)}
+                  crop="fill"
+                  gravity="auto"
+                />
+                <p className="text-sm mt-4">{place.description}</p>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+        <div className="w-1/2 h-full">
+          <CurrentMap place={place} />
+        </div>
       </div>
+
       <Modal
         id="place-delete-modal"
         isOpen={showDeleteModal}
@@ -163,6 +175,6 @@ const PlaceId: PlaceIdFC = () => {
   );
 };
 
-PlaceId.withMapView = true;
+// PlaceId.withMapView = true;
 
 export default PlaceId;

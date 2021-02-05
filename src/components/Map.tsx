@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import ReactMapGL, { ViewState } from "react-map-gl";
+import ReactMapGL, { NavigationControl, ViewState } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useLocalStorage } from "src/hooks";
 
@@ -28,7 +28,11 @@ const Map = () => {
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         onViewportChange={setViewport}
         mapStyle="mapbox://styles/prabhatpal14/ckkhnouxu02d917mlce5wg9tm"
-      />
+      >
+        <div className="absolute top-0 right-0 p-4">
+          <NavigationControl showCompass={false} />
+        </div>
+      </ReactMapGL>
     </div>
   );
 };

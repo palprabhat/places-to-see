@@ -12,6 +12,11 @@ export const GET_PLACE_BY_ID_QUERY = gql`
       placeName
       placeType
       description
+      nearby {
+        id
+        latitude
+        longitude
+      }
     }
   }
 `;

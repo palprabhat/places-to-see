@@ -63,6 +63,7 @@ module.exports = {
       backgroundColor: ["active", "disabled"],
       cursor: ["disabled"],
       translate: ["active"],
+      zIndex: ["hover"],
     },
   },
   plugins: [],
