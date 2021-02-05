@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "husky install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -13,7 +12,8 @@
     "db:generate": "yarn prisma generate",
     "db:migrate:new": "yarn prisma migrate save --experimental",
     "db:migrate:up": "yarn prisma migrate up --experimental",
-    "db:migrate:down": "yarn prisma migrate down --experimental"
+    "db:migrate:down": "yarn prisma migrate down --experimental",
+    "postinstall": "husky install & yarn db:generate"
   },
   "husky": {
     "hooks": {

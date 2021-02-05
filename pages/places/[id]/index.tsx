@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
-import { GET_PLACE_BY_ID_QUERY } from "src/gql";
+import { useMutation, useQuery } from "@apollo/client";
+import { DELETE_PLACE_QUERY, GET_PLACE_BY_ID_QUERY } from "src/gql";
 import { GetPlaceByIdQuery } from "src/generated/GetPlaceByIdQuery";
 import { GetPlaceByIdQueryVariables } from "src/generated/GetPlaceByIdQuery";
 import { Image } from "cloudinary-react";
@@ -11,19 +11,68 @@ import { IoLocationSharp } from "react-icons/io5";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Button } from "src/components/ui";
 import PlaceForm from "src/components/PlaceForm";
+import Modal from "src/components/Modal";
+import {
+  DeletePlaceMutation,
+  DeletePlaceMutationVariables,
+} from "../../../src/generated/DeletePlaceMutation";
+import { useToasts } from "react-toast-notifications";
+import { urls } from "src/consts/urls";
 
 type PlaceIdFC<P = {}> = FC<P> & additionalType;
 
 const PlaceId: PlaceIdFC = () => {
   const [editMode, setEditMode] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { addToast } = useToasts();
+  const router = useRouter();
+
   const {
     query: { id },
-  } = useRouter();
+  } = router;
+
+  const [deletePlace] = useMutation<
+    DeletePlaceMutation,
+    DeletePlaceMutationVariables
+  >(DELETE_PLACE_QUERY);
 
   const { data, loading, error, refetch } = useQuery<
     GetPlaceByIdQuery,
     GetPlaceByIdQueryVariables
   >(GET_PLACE_BY_ID_QUERY, { variables: { id: (id as string) ?? "" } });
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const { errors, data: deleteData } = await deletePlace({
+        variables: { id: id as string } ?? "",
+      });
+
+      if (errors && errors.length) {
+        errors.map((error) => {
+          throw new Error(
+            error.message ?? "Something went wrong! Please try again later"
+          );
+        });
+      }
+
+      if (deleteData) {
+        addToast("Place deleted", {
+          appearance: "success",
+        });
+
+        router.push(urls.home);
+      }
+    } catch (err) {
+      console.error(`😱: ${err}`);
+      addToast(err.message ?? "Something went wrong! Please try again later.", {
+        appearance: "error",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   if (loading) return <div>Loading</div>;
   if (error || !data || !data.place) return <div>{error}</div>;
@@ -44,10 +93,14 @@ const PlaceId: PlaceIdFC = () => {
             <Button onClick={() => setEditMode(false)}>Cancel</Button>
           ) : (
             <>
-              <Button onClick={() => setEditMode(true)} className="text-2xl">
+              <Button className="text-2xl" onClick={() => setEditMode(true)}>
                 <MdEdit />
               </Button>
-              <Button variant="danger" className="text-2xl">
+              <Button
+                variant="danger"
+                className="text-2xl"
+                onClick={() => setShowDeleteModal(true)}
+              >
                 <MdDelete />
               </Button>
             </>
@@ -85,6 +138,27 @@ const PlaceId: PlaceIdFC = () => {
           </div>
         )}
       </div>
+      <Modal
+        id="place-delete-modal"
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+      >
+        <div className="h-40 w-72 flex flex-col items-center justify-center">
+          <div className="text-2xl font-bold text-center">
+            Are you sure to delete this place?
+          </div>
+          <div className="flex justify-around mt-8 w-full">
+            <Button
+              variant="danger"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              Delete
+            </Button>
+            <Button onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };
