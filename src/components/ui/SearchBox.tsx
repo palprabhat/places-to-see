@@ -51,13 +51,17 @@ const DropdownIndicator: ComponentType<
   );
 };
 
-export const SearchBox: FC<ISearchBox> = ({ ...rest }) => {
+export const SearchBox: FC<ISearchBox> = ({
+  placeholder = "Search a location",
+  ...rest
+}) => {
   return (
     <SelectBox
       components={{
         Option,
         DropdownIndicator,
       }}
+      placeholder={placeholder}
       {...rest}
     />
   );

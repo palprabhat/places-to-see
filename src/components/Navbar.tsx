@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Modal from "./Modal";
 import Link from "next/link";
 import { Button } from "./ui";
-import { urls } from "../consts/urls";
+import { urls } from "../consts";
 
 interface IMenuItem {
   onClick?: () => any;

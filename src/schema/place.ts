@@ -49,6 +49,15 @@ class PlaceInput {
   coordinates!: Coordinates;
 }
 
+@InputType()
+class BoundInput {
+  @Field((_type) => Coordinates)
+  sw!: Coordinates;
+
+  @Field((_type) => Coordinates)
+  ne!: Coordinates;
+}
+
 @ObjectType()
 class Place {
   @Field((_type) => ID)
@@ -108,6 +117,17 @@ export class PlaceResolver {
   async place(@Arg("id") id: string, @Ctx() ctx: Context) {
     if (!id) return null;
     return await ctx.prisma.place.findUnique({ where: { id: parseInt(id) } });
+  }
+
+  @Query((_returns) => [Place], { nullable: true })
+  async places(@Arg("bounds") bounds: BoundInput, @Ctx() ctx: Context) {
+    return await ctx.prisma.place.findMany({
+      where: {
+        latitude: { gte: bounds.sw.latitude, lte: bounds.ne.latitude },
+        longitude: { gte: bounds.sw.longitude, lte: bounds.ne.longitude },
+      },
+      take: 50,
+    });
   }
 
   @Authorized()

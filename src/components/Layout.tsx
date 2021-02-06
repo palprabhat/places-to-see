@@ -1,21 +1,31 @@
-import { FC } from "react";
-import Map from "./Map";
+import { FC, ReactNode } from "react";
+import { ViewportFullHeight } from "src/consts";
 import Navbar from "./Navbar";
 
-interface ILayout {
-  withMapView?: boolean;
-}
+type ISplitLayout = {
+  leftChildren: ReactNode;
+  rightChildren: ReactNode;
+  children?: never;
+};
 
-const Layout: FC<ILayout> = ({ children, withMapView = false }) => {
-  let content = children;
+type IFullLayout = {
+  leftChildren?: never;
+  rightChildren?: never;
+  children: ReactNode;
+};
 
-  if (withMapView) {
+declare type ILayout = ISplitLayout | IFullLayout;
+
+const Layout: FC<ILayout> = ({ children, leftChildren, rightChildren }) => {
+  let content = null;
+
+  if (children) {
+    content = children;
+  } else {
     content = (
       <>
-        <div className="w-1/2">{children}</div>
-        <div className="w-1/2 h-full">
-          <Map />
-        </div>
+        <div className="w-1/2">{leftChildren}</div>
+        <div className="w-1/2 h-full">{rightChildren}</div>
       </>
     );
   }
@@ -24,8 +34,8 @@ const Layout: FC<ILayout> = ({ children, withMapView = false }) => {
     <>
       <Navbar />
       <main
-        className={`${withMapView ? "flex" : ""}`}
-        style={{ minHeight: "calc(100vh - 75px)" }}
+        className={`${!children ? "flex" : ""}`}
+        style={{ minHeight: ViewportFullHeight }}
       >
         {content}
       </main>

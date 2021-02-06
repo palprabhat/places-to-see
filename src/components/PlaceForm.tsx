@@ -13,10 +13,10 @@ import {
 } from "src/gql";
 import { CreatePlaceMutation } from "src/generated/CreatePlaceMutation";
 import LocationSearch from "./LocationSearch";
-import { Image } from "cloudinary-react";
 import { UpdatePlaceMutation } from "src/generated/UpdatePlaceMutation";
 import { UpdatePlaceMutationVariables } from "../generated/UpdatePlaceMutation";
 import { CreatePlaceMutationVariables } from "../generated/CreatePlaceMutation";
+import CloudinaryImage from "./ui/CloudinaryImage";
 
 interface IFormData {
   placeName: string;
@@ -39,6 +39,18 @@ interface IPlace {
   longitude: number;
   image: string;
   publicId: string;
+}
+
+interface IPlaceFormProps {
+  place?: IPlace;
+  onSubmitted: (id: string) => void;
+  searchedCoordiantes: ({
+    latitude,
+    longitude,
+  }: {
+    latitude: number;
+    longitude: number;
+  }) => void;
 }
 
 const validationSchema = Yup.object({
@@ -86,6 +98,22 @@ interface IUploadImageResponse {
   };
 }
 
+// const getNetworkErrors = (error: any) => {
+//   error.networkError.response
+//     .json()
+//     .then((e: any) => e.errors.map((e: any) => e.message).join(","));
+// };
+
+// catch(error => {
+//   if (error.networkError) {
+//     getNetworkErrors(error).then(console.log)
+//   } else {
+//     console.log(error.message)
+//   }
+// })
+
+// error.networkError.result.errors;
+
 const uploadImage = async (
   image: File,
   signature: string,
@@ -115,9 +143,10 @@ const uploadImage = async (
   }
 };
 
-const PlaceForm: FC<{ place?: IPlace; onSubmitted: (id: string) => void }> = ({
+const PlaceForm: FC<IPlaceFormProps> = ({
   place,
   onSubmitted,
+  searchedCoordiantes,
 }) => {
   const { addToast } = useToasts();
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -395,6 +424,7 @@ const PlaceForm: FC<{ place?: IPlace; onSubmitted: (id: string) => void }> = ({
             shouldValidate: true,
             shouldDirty: true,
           });
+          searchedCoordiantes({ latitude: lat, longitude: lng });
         }}
         error={errors?.address || errors?.latitude || errors?.longitude}
       />
@@ -410,18 +440,10 @@ const PlaceForm: FC<{ place?: IPlace; onSubmitted: (id: string) => void }> = ({
           className="mt-4 object-cover w-full mb-8 rounded-md"
         />
       ) : place && watch("publicId") ? (
-        <Image
-          className="object-cover w-full rounded-md mt-6"
-          cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+        <CloudinaryImage
+          className="rounded-md mt-6"
           publicId={place.publicId}
           alt={place.placeName}
-          secure
-          dpr="auto"
-          quality="auto"
-          width={900}
-          height={Math.floor((9 / 16) * 900)}
-          crop="fill"
-          gravity="auto"
         />
       ) : null}
       <InputField name="placeName" placeholder="Name of the place" />

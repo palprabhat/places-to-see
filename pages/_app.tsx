@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { AppInitialProps } from "next/app";
 import { AuthProvider } from "src/contexts";
-import Layout from "src/components/Layout";
 import "../styles/tailwind.scss";
 import "../styles/react-select.scss";
 import { NextComponentType, NextPageContext } from "next";
@@ -35,9 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             autoDismissTimeout={4000}
             transitionDuration={150}
           >
-            <Layout withMapView={Component.withMapView}>
-              <Component {...pageProps} />
-            </Layout>
+            <Component {...pageProps} />
           </ToastProvider>
         </ApolloProvider>
       </AuthProvider>

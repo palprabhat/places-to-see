@@ -1,12 +1,15 @@
 import { GetServerSideProps, NextApiRequest } from "next";
 import FirebaseAuth from "src/components/FirebaseAuth";
 import { loadIdToken } from "src/auth/firebaseAdmin";
+import Layout from "src/components/Layout";
 
 const Auth = () => {
   return (
-    <div className="mt-16 flex justify-center">
-      <FirebaseAuth />
-    </div>
+    <Layout>
+      <div className="mt-16 flex justify-center">
+        <FirebaseAuth />
+      </div>
+    </Layout>
   );
 };
 

@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input BoundInput {
+  ne: Coordinates!
+  sw: Coordinates!
+}
+
 input Coordinates {
   latitude: Float!
   longitude: Float!
@@ -45,4 +50,5 @@ input PlaceInput {
 type Query {
   hello: String!
   place(id: String!): Place
+  places(bounds: BoundInput!): [Place!]
 }

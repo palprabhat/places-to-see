@@ -79,12 +79,13 @@ const PlacesAutoComplete: FC<ILocationSearch> = ({
     <SearchBox
       name="locationSearch"
       id="location-search"
-      placeholder="Search a location"
       isLoading={loading}
       isDisabled={!ready}
       options={options}
       error={error}
-      defaultValue={{ label: defaultValue, value: defaultValue }}
+      defaultValue={
+        defaultValue ? { label: defaultValue, value: defaultValue } : null
+      }
       onInputChange={(input) => setValue(input)}
       onChange={(address) => handleChange(address as address | null)}
     />

@@ -21,6 +21,22 @@ export const GET_PLACE_BY_ID_QUERY = gql`
   }
 `;
 
+export const GET_PLACES_QUERY = gql`
+  query GetPlacesQuery($bounds: BoundInput!) {
+    places(bounds: $bounds) {
+      id
+      latitude
+      longitude
+      address
+      image
+      publicId
+      placeName
+      placeType
+      description
+    }
+  }
+`;
+
 export const CREATE_PLACE_MUTATION = gql`
   mutation CreatePlaceMutation($input: PlaceInput!) {
     createPlace(input: $input) {
