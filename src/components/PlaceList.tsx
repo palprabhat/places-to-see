@@ -1,4 +1,4 @@
-import { ViewportFullHeight } from "src/consts";
+import { urls, ViewportFullHeight } from "src/consts";
 import { GetPlacesQuery_places } from "src/generated/GetPlacesQuery";
 import { Dispatch, FC, SetStateAction } from "react";
 import CloudinaryImage from "./ui/CloudinaryImage";
@@ -40,7 +40,7 @@ const PlaceList: FC<IPlaceList> = ({
 
       <div className="flex flex-col space-y-4">
         {places.map((place) => (
-          <Link key={place.id} href={`/places/${place.id}`}>
+          <Link key={place.id} href={`${urls.places}/${place.id}`}>
             <a
               className={`flex rounded-md overflow-hidden transform transition-all border-2 border-solid bg-gray-800 cursor-pointer ${
                 focusedPlaceId === place.id

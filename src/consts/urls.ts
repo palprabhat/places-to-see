@@ -2,6 +2,7 @@ export const urls = {
   home: "/",
   auth: "/auth",
   addPlace: "/places/add",
+  places: "/places",
 };
 
 export const externalUrls = {

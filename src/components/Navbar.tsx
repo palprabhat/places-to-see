@@ -1,13 +1,19 @@
 import DropMenu from "./ui/DropMenu";
 import { FC } from "react";
-import { IoClose, IoLocationSharp, IoPerson } from "react-icons/io5";
+import {
+  IoClose,
+  IoLocationSharp,
+  IoLogOutOutline,
+  IoPerson,
+} from "react-icons/io5";
+import { AiOutlineGithub } from "react-icons/ai";
 import { useAuth } from "src/contexts";
 import FirebaseAuth from "./FirebaseAuth";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
 import Link from "next/link";
 import { Button } from "./ui";
-import { urls } from "src/consts";
+import { externalUrls, urls } from "src/consts";
 
 interface IMenuItem {
   onClick?: () => any;
@@ -95,15 +101,23 @@ const Navbar = () => {
                 </div>
               </DropMenu.Title>
               <DropMenu.Items className="w-56">
-                {/* <MenuItem
+                <MenuItem
                   asLink
                   href={externalUrls.github}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <AiOutlineGithub fontSize="1.75rem" />
-                </MenuItem> */}
-                <MenuItem onClick={() => logout()}>Logout</MenuItem>
+                  <div className="flex space-x-2">
+                    <AiOutlineGithub fontSize="1.75rem" />
+                    <span>Github</span>
+                  </div>
+                </MenuItem>
+                <MenuItem onClick={() => logout()}>
+                  <div className="flex space-x-2">
+                    <IoLogOutOutline  fontSize="1.75rem" />
+                    <span>Logout</span>
+                  </div>
+                </MenuItem>
               </DropMenu.Items>
             </DropMenu>
           )}

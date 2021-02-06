@@ -1,8 +1,15 @@
-import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { useLocalStorage } from "src/hooks";
 import Map from "./ui/Map";
-import { LOCAL_STORAGE_VIEWPORT, ViewportFullHeight } from "src/consts";
+import { LOCAL_STORAGE_VIEWPORT, urls, ViewportFullHeight } from "src/consts";
 import { BoundsArray } from "src/consts";
 import Link from "next/link";
 import { IoLocationSharp } from "react-icons/io5";
@@ -23,6 +30,7 @@ const HomeMap: FC<IProps> = ({
   setFocusedPlaceId,
   searchedViewport,
 }) => {
+  const [locationSearched, setLocationSearched] = useState(false);
   const mapRef = useRef<ReactMapGL | null>(null);
   const [viewport, setViewport] = useLocalStorage<ViewState>(
     LOCAL_STORAGE_VIEWPORT,
@@ -34,13 +42,19 @@ const HomeMap: FC<IProps> = ({
   );
 
   useEffect(() => {
-    if (searchedViewport && mapRef.current) {
+    if (searchedViewport) {
       setViewport({ ...searchedViewport });
-
-      const bounds = mapRef.current.getMap().getBounds();
-      setDataBounds(bounds.toArray() as BoundsArray);
+      setLocationSearched(true);
     }
   }, [searchedViewport]);
+
+  useEffect(() => {
+    if (locationSearched && mapRef.current) {
+      const bounds = mapRef.current.getMap().getBounds();
+      setDataBounds(bounds.toArray() as BoundsArray);
+      setLocationSearched(false);
+    }
+  }, [locationSearched]);
 
   return (
     <div className="relative">
@@ -80,7 +94,7 @@ const HomeMap: FC<IProps> = ({
               offsetTop={-20}
               className={`${focusedPlaceId === place.id ? "z-10" : ""}`}
             >
-              <Link href={`/places/${place.id}`}>
+              <Link href={`${urls.places}/${place.id}`}>
                 <a>
                   <IoLocationSharp
                     className={`text-3xl text-white cursor-pointer transform transition-all ${

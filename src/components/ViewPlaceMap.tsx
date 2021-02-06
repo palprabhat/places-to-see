@@ -3,7 +3,7 @@ import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { IoLocationSharp } from "react-icons/io5";
 import Link from "next/link";
 import Map from "./ui/Map";
-import { ViewportFullHeight } from "src/consts";
+import { urls, ViewportFullHeight } from "src/consts";
 
 interface IPlace {
   id: string;
@@ -56,7 +56,7 @@ const CurrentMap: FC<IProps> = ({
                 key={nearPlace.id}
                 className="hover:z-10"
               >
-                <Link href={`/places/${nearPlace.id}`}>
+                <Link href={`${urls.places}/${nearPlace.id}`}>
                   <a>
                     <IoLocationSharp className="text-3xl text-white hover:text-red-600 cursor-pointer transform transition-all hover:scale-125 hover:-translate-y-1" />
                   </a>

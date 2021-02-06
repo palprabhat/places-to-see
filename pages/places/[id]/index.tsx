@@ -216,6 +216,4 @@ const PlaceId: PlaceIdFC = () => {
   );
 };
 
-// PlaceId.withMapView = true;
-
 export default PlaceId;

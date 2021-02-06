@@ -81,8 +81,8 @@ const DropMenu: DropMenuFC<IDropMenuProps> = ({
     if (open) {
       const handleWindowClick = () => setOpen(false);
 
-      window.addEventListener("click", handleWindowClick);
-      return () => window.removeEventListener("click", handleWindowClick);
+      window.addEventListener("click", handleWindowClick, true);
+      return () => window.removeEventListener("click", handleWindowClick, true);
     }
   }, [open]);
 

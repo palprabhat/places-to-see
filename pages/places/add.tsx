@@ -35,7 +35,7 @@ const Add = () => {
           </div>
           <PlaceForm
             onSubmitted={(id) => {
-              router.push(`/places/${id}`);
+              router.push(`${urls.places}/${id}`);
             }}
             searchedCoordiantes={({ latitude, longitude }) =>
               setSearchedViewport((viewport) => {
