@@ -1,11 +1,11 @@
 import { GetPlacesQuery } from "src/generated/GetPlacesQuery";
-import { GetPlacesQueryVariables } from "../src/generated/GetPlacesQuery";
+import { GetPlacesQueryVariables } from "src/generated/GetPlacesQuery";
 import { useQuery } from "@apollo/client";
 import { GET_PLACES_QUERY } from "src/gql";
 import { useLastData, useLocalStorage } from "src/hooks";
 import Layout from "src/components/Layout";
 import HomeMap from "src/components/HomeMap";
-import { BoundsArray, PREFIX } from "src/consts";
+import { BoundsArray, LOCAL_STORAGE_BOUNDS } from "src/consts";
 import { useDebounce } from "src/hooks";
 import PlaceList from "src/components/PlaceList";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export const Home = () => {
 
   const [searchedViewport, setSearchedViewport] = useState<ViewState>();
   const [dataBounds, setDataBounds] = useLocalStorage<BoundsArray>(
-    `${PREFIX}bounds`,
+    LOCAL_STORAGE_BOUNDS,
     [
       [0, 0],
       [0, 0],

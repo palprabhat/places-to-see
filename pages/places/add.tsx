@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { loadIdToken } from "src/auth/firebaseAdmin";
 import PlaceForm from "src/components/PlaceForm";
 import { Button } from "src/components/ui";
-import { PREFIX, urls, ViewportFullHeight } from "src/consts";
+import { LOCAL_STORAGE_VIEWPORT, urls, ViewportFullHeight } from "src/consts";
 import Layout from "src/components/Layout";
 import { ViewState } from "react-map-gl";
 import AddPlaceMap from "src/components/AddPlaceMap";
@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const Add = () => {
   const router = useRouter();
-  const [localViewport] = useLocalStorage<ViewState>(`${PREFIX}viewport`, {
+  const [localViewport] = useLocalStorage<ViewState>(LOCAL_STORAGE_VIEWPORT, {
     latitude: 47.6062,
     longitude: -122.3321,
     zoom: 13,

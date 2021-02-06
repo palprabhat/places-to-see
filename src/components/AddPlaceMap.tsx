@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { IoLocationSharp } from "react-icons/io5";
 import Map from "./ui/Map";
-import { PREFIX, ViewportFullHeight } from "src/consts";
+import { LOCAL_STORAGE_VIEWPORT, ViewportFullHeight } from "src/consts";
 import { useLocalStorage } from "src/hooks";
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 
 const AddPlaceMap: FC<IProps> = ({ searchedViewport }) => {
   const mapRef = useRef<ReactMapGL | null>(null);
-  const [localViewport] = useLocalStorage<ViewState>(`${PREFIX}viewport`, {
+  const [localViewport] = useLocalStorage<ViewState>(LOCAL_STORAGE_VIEWPORT, {
     latitude: 47.6062,
     longitude: -122.3321,
     zoom: 13,

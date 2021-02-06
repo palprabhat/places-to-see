@@ -14,8 +14,8 @@ import {
 import { CreatePlaceMutation } from "src/generated/CreatePlaceMutation";
 import LocationSearch from "./LocationSearch";
 import { UpdatePlaceMutation } from "src/generated/UpdatePlaceMutation";
-import { UpdatePlaceMutationVariables } from "../generated/UpdatePlaceMutation";
-import { CreatePlaceMutationVariables } from "../generated/CreatePlaceMutation";
+import { UpdatePlaceMutationVariables } from "src/generated/UpdatePlaceMutation";
+import { CreatePlaceMutationVariables } from "src/generated/CreatePlaceMutation";
 import CloudinaryImage from "./ui/CloudinaryImage";
 
 interface IFormData {

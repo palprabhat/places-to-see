@@ -2,11 +2,11 @@ import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
 import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { useLocalStorage } from "src/hooks";
 import Map from "./ui/Map";
-import { PREFIX, ViewportFullHeight } from "src/consts";
+import { LOCAL_STORAGE_VIEWPORT, ViewportFullHeight } from "src/consts";
 import { BoundsArray } from "src/consts";
 import Link from "next/link";
 import { IoLocationSharp } from "react-icons/io5";
-import { GetPlacesQuery_places } from "../generated/GetPlacesQuery";
+import { GetPlacesQuery_places } from "src/generated/GetPlacesQuery";
 
 interface IProps {
   setDataBounds: (bounds: BoundsArray) => void;
@@ -25,7 +25,7 @@ const HomeMap: FC<IProps> = ({
 }) => {
   const mapRef = useRef<ReactMapGL | null>(null);
   const [viewport, setViewport] = useLocalStorage<ViewState>(
-    `${PREFIX}viewport`,
+    LOCAL_STORAGE_VIEWPORT,
     {
       latitude: 47.6062,
       longitude: -122.3321,

@@ -19,7 +19,7 @@ import { useToasts } from "react-toast-notifications";
 import { urls, ViewportFullHeight } from "src/consts";
 import ViewPlaceMap from "src/components/ViewPlaceMap";
 import CloudinaryImage from "src/components/ui/CloudinaryImage";
-import Layout from "../../../src/components/Layout";
+import Layout from "src/components/Layout";
 import { ViewState } from "react-map-gl";
 
 type PlaceIdFC<P = {}> = FC<P> & additionalType;

@@ -1,7 +1,7 @@
 import { createContext, FC, useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
-import { removeToken, setToken } from "../utils";
+import { removeToken, setToken } from "src/utils";
 import "firebase/auth";
 
 const config = {

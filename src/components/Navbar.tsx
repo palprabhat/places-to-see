@@ -1,13 +1,13 @@
 import DropMenu from "./ui/DropMenu";
 import { FC } from "react";
 import { IoClose, IoLocationSharp, IoPerson } from "react-icons/io5";
-import { useAuth } from "../contexts";
+import { useAuth } from "src/contexts";
 import FirebaseAuth from "./FirebaseAuth";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
 import Link from "next/link";
 import { Button } from "./ui";
-import { urls } from "../consts";
+import { urls } from "src/consts";
 
 interface IMenuItem {
   onClick?: () => any;

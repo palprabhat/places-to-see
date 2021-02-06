@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { AppInitialProps } from "next/app";
 import { AuthProvider } from "src/contexts";
-import "../styles/tailwind.scss";
-import "../styles/react-select.scss";
 import { NextComponentType, NextPageContext } from "next";
 import { Router } from "next/router";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "src/apollo";
 import { ToastProvider } from "react-toast-notifications";
 import { additionalType } from "src/utils";
+import "../styles/tailwind.scss";
+import "../styles/react-select.scss";
 
 type AppProps<P = {}> = AppInitialProps & {
   Component: NextComponentType<NextPageContext, any, P> & additionalType;

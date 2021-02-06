@@ -1,5 +1,5 @@
 import { ViewportFullHeight } from "src/consts";
-import { GetPlacesQuery_places } from "../generated/GetPlacesQuery";
+import { GetPlacesQuery_places } from "src/generated/GetPlacesQuery";
 import { Dispatch, FC, SetStateAction } from "react";
 import CloudinaryImage from "./ui/CloudinaryImage";
 import Link from "next/link";
