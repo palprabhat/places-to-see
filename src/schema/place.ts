@@ -64,6 +64,9 @@ class Place {
   id!: number;
 
   @Field((_type) => String)
+  userId!: string;
+
+  @Field((_type) => String)
   placeName!: string;
 
   @Field((_type) => String)

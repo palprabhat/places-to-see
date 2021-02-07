@@ -17,6 +17,7 @@ export interface GetPlaceByIdQuery_place_nearby {
 export interface GetPlaceByIdQuery_place {
   __typename: "Place";
   id: string;
+  userId: string;
   latitude: number;
   longitude: number;
   address: string;

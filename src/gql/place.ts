@@ -4,6 +4,7 @@ export const GET_PLACE_BY_ID_QUERY = gql`
   query GetPlaceByIdQuery($id: String!) {
     place(id: $id) {
       id
+      userId
       latitude
       longitude
       address
@@ -25,6 +26,7 @@ export const GET_PLACES_QUERY = gql`
   query GetPlacesQuery($bounds: BoundInput!) {
     places(bounds: $bounds) {
       id
+      userId
       latitude
       longitude
       address

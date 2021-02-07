@@ -21,6 +21,7 @@ import ViewPlaceMap from "src/components/ViewPlaceMap";
 import CloudinaryImage from "src/components/ui/CloudinaryImage";
 import Layout from "src/components/Layout";
 import { ViewState } from "react-map-gl";
+import { useAuth } from "src/contexts";
 
 type PlaceIdFC<P = {}> = FC<P> & additionalType;
 
@@ -33,6 +34,7 @@ const PlaceId: PlaceIdFC = () => {
     longitude: -122.3321,
     zoom: 13,
   });
+  const { user } = useAuth();
   const { addToast } = useToasts();
   const router = useRouter();
 
@@ -133,21 +135,23 @@ const PlaceId: PlaceIdFC = () => {
                   >
                     <IoChevronBack className="text-2xl" />
                   </Button>
-                  <div className="space-x-4">
-                    <Button
-                      className="text-2xl"
-                      onClick={() => setEditMode(true)}
-                    >
-                      <MdEdit />
-                    </Button>
-                    <Button
-                      variant="danger"
-                      className="text-2xl"
-                      onClick={() => setShowDeleteModal(true)}
-                    >
-                      <MdDelete />
-                    </Button>
-                  </div>
+                  {!!user && user.uid === place.userId ? (
+                    <div className="space-x-4">
+                      <Button
+                        className="text-2xl"
+                        onClick={() => setEditMode(true)}
+                      >
+                        <MdEdit />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="text-2xl"
+                        onClick={() => setShowDeleteModal(true)}
+                      >
+                        <MdDelete />
+                      </Button>
+                    </div>
+                  ) : null}
                 </>
               )}
             </div>

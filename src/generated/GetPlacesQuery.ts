@@ -12,6 +12,7 @@ import { BoundInput } from "./globalTypes";
 export interface GetPlacesQuery_places {
   __typename: "Place";
   id: string;
+  userId: string;
   latitude: number;
   longitude: number;
   address: string;
