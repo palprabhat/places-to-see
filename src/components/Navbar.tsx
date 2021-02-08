@@ -56,6 +56,7 @@ const MenuItem: FC<IMenuItem> = ({
 const Navbar = () => {
   const { user, logout, authenticated } = useAuth();
   const router = useRouter();
+  const isMinWidthMd = minWidthMd();
 
   const closeAuthModal = () => {
     router.push(urls.home);
@@ -76,7 +77,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {authenticated && router.pathname === urls.home && (
             <Button asLink href={urls.addPlace}>
-              {minWidthMd() ? "Add a new place" : <IoMdAdd />}
+              {isMinWidthMd ? "Add a new place" : <IoMdAdd />}
             </Button>
           )}
 

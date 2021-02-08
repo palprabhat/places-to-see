@@ -42,6 +42,7 @@ const HomeMap: FC<IProps> = ({
       zoom: 11,
     }
   );
+  const isMinWidthXl = minWidthXl();
 
   useEffect(() => {
     if (searchedViewport) {
@@ -63,7 +64,7 @@ const HomeMap: FC<IProps> = ({
       <Map
         viewport={viewport}
         width="100%"
-        height={minWidthXl() ? ViewportFullHeight : ViewportHalfHeight}
+        height={isMinWidthXl ? ViewportFullHeight : ViewportHalfHeight}
         minZoom={4}
         maxZoom={15}
         ref={(instance) => {

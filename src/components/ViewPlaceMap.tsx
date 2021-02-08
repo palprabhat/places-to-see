@@ -4,7 +4,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import Link from "next/link";
 import Map from "./ui/Map";
 import { urls, ViewportFullHeight, ViewportHalfHeight } from "src/consts";
-import { minWidthXl } from 'src/utils';
+import { minWidthXl } from "src/utils";
 
 interface IPlace {
   id: string;
@@ -31,6 +31,7 @@ const ViewPlaceMap: FC<IProps> = ({
     longitude: place.longitude,
     zoom: 13,
   });
+  const isMinWidthXl = minWidthXl();
 
   useEffect(() => {
     setViewport({ ...searchedViewport, zoom: 13 });
@@ -41,7 +42,7 @@ const ViewPlaceMap: FC<IProps> = ({
       <Map
         viewport={viewport}
         width="100%"
-        height={minWidthXl() ? ViewportFullHeight : ViewportHalfHeight}
+        height={isMinWidthXl ? ViewportFullHeight : ViewportHalfHeight}
         minZoom={4}
         maxZoom={18}
         ref={mapRef}

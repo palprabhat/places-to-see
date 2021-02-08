@@ -102,7 +102,7 @@ const DropMenu: DropMenuFC<IDropMenuProps> = ({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="absolute overflow-hidden right-0 z-10 border rounded-md shadow-sm focus:outline-none bg-gray-800 border-gray-600"
+            className="absolute overflow-hidden right-0 z-20 border rounded-md shadow-sm focus:outline-none bg-gray-800 border-gray-600"
           >
             <RenderItems closeOnItemSelect={closeOnItemSelect}>
               {children}

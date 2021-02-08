@@ -2,9 +2,13 @@ import { FC, useEffect, useRef, useState } from "react";
 import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { IoLocationSharp } from "react-icons/io5";
 import Map from "./ui/Map";
-import { LOCAL_STORAGE_VIEWPORT, ViewportFullHeight, ViewportHalfHeight } from "src/consts";
+import {
+  LOCAL_STORAGE_VIEWPORT,
+  ViewportFullHeight,
+  ViewportHalfHeight,
+} from "src/consts";
 import { useLocalStorage } from "src/hooks";
-import { minWidthXl } from 'src/utils';
+import { minWidthXl } from "src/utils";
 
 interface IProps {
   searchedViewport: ViewState;
@@ -18,6 +22,7 @@ const AddPlaceMap: FC<IProps> = ({ searchedViewport }) => {
     zoom: 13,
   });
   const [viewport, setViewport] = useState<ViewState>(localViewport);
+  const isMinWidthXl = minWidthXl();
 
   useEffect(() => {
     setViewport({ ...searchedViewport, zoom: 13 });
@@ -28,7 +33,7 @@ const AddPlaceMap: FC<IProps> = ({ searchedViewport }) => {
       <Map
         viewport={viewport}
         width="100%"
-        height={minWidthXl() ? ViewportFullHeight : ViewportHalfHeight}
+        height={isMinWidthXl ? ViewportFullHeight : ViewportHalfHeight}
         minZoom={4}
         maxZoom={18}
         ref={mapRef}
