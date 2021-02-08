@@ -7,6 +7,7 @@ import {
   IoPerson,
 } from "react-icons/io5";
 import { AiOutlineGithub } from "react-icons/ai";
+import { IoMdAdd } from "react-icons/io";
 import { useAuth } from "src/contexts";
 import FirebaseAuth from "./FirebaseAuth";
 import { useRouter } from "next/router";
@@ -14,6 +15,7 @@ import Modal from "./Modal";
 import Link from "next/link";
 import { Button } from "./ui";
 import { externalUrls, urls } from "src/consts";
+import { minWidthMd } from "src/utils";
 
 interface IMenuItem {
   onClick?: () => any;
@@ -74,7 +76,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {authenticated && router.pathname === urls.home && (
             <Button asLink href={urls.addPlace}>
-              Add a new place
+              {minWidthMd() ? "Add a new place" : <IoMdAdd />}
             </Button>
           )}
 
@@ -114,7 +116,7 @@ const Navbar = () => {
                 </MenuItem>
                 <MenuItem onClick={() => logout()}>
                   <div className="flex space-x-2">
-                    <IoLogOutOutline  fontSize="1.75rem" />
+                    <IoLogOutOutline fontSize="1.75rem" />
                     <span>Logout</span>
                   </div>
                 </MenuItem>

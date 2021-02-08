@@ -6,3 +6,10 @@ body {
   @apply bg-blueGray-800;
   @apply text-white;
 }
+
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-top-right {
+  z-index: 0;
+}

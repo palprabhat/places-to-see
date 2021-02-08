@@ -25,7 +25,7 @@ const Map: ForwardRefRenderFunction<ReactMapGL, IMap> = (
         ref={ref}
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
       >
-        <div className="absolute top-0 right-0 p-4">
+        <div className="absolute bottom-0 right-0 p-4">
           <NavigationControl showCompass={false} />
         </div>
         {children}

@@ -3,7 +3,8 @@ import ReactMapGL, { Marker, ViewState } from "react-map-gl";
 import { IoLocationSharp } from "react-icons/io5";
 import Link from "next/link";
 import Map from "./ui/Map";
-import { urls, ViewportFullHeight } from "src/consts";
+import { urls, ViewportFullHeight, ViewportHalfHeight } from "src/consts";
+import { minWidthXl } from 'src/utils';
 
 interface IPlace {
   id: string;
@@ -18,7 +19,7 @@ interface IProps {
   searchedViewport: ViewState;
 }
 
-const CurrentMap: FC<IProps> = ({
+const ViewPlaceMap: FC<IProps> = ({
   place,
   nearby,
   editMode,
@@ -40,7 +41,7 @@ const CurrentMap: FC<IProps> = ({
       <Map
         viewport={viewport}
         width="100%"
-        height={ViewportFullHeight}
+        height={minWidthXl() ? ViewportFullHeight : ViewportHalfHeight}
         minZoom={4}
         maxZoom={18}
         ref={mapRef}
@@ -79,4 +80,4 @@ const CurrentMap: FC<IProps> = ({
   );
 };
 
-export default CurrentMap;
+export default ViewPlaceMap;

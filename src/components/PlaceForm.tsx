@@ -17,6 +17,7 @@ import { UpdatePlaceMutation } from "src/generated/UpdatePlaceMutation";
 import { UpdatePlaceMutationVariables } from "src/generated/UpdatePlaceMutation";
 import { CreatePlaceMutationVariables } from "src/generated/CreatePlaceMutation";
 import CloudinaryImage from "./ui/CloudinaryImage";
+import placeTypeData from "src/data/places-type.json";
 
 interface IFormData {
   placeName: string;
@@ -452,7 +453,7 @@ const PlaceForm: FC<IPlaceFormProps> = ({
         name="placeType"
         placeholder="Place type"
         value={place?.placeType ?? ""}
-        options={[{ label: "1", value: "1" }]}
+        options={placeTypeData}
         onChange={(data) => {
           setValue("placeType", data ? data.value : "", {
             shouldValidate: true,

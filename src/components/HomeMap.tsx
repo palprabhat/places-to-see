@@ -14,6 +14,8 @@ import { BoundsArray } from "src/consts";
 import Link from "next/link";
 import { IoLocationSharp } from "react-icons/io5";
 import { GetPlacesQuery_places } from "src/generated/GetPlacesQuery";
+import { minWidthXl } from "../utils/windowSize";
+import { ViewportHalfHeight } from "../consts/index";
 
 interface IProps {
   setDataBounds: (bounds: BoundsArray) => void;
@@ -61,7 +63,7 @@ const HomeMap: FC<IProps> = ({
       <Map
         viewport={viewport}
         width="100%"
-        height={ViewportFullHeight}
+        height={minWidthXl() ? ViewportFullHeight : ViewportHalfHeight}
         minZoom={4}
         maxZoom={15}
         ref={(instance) => {

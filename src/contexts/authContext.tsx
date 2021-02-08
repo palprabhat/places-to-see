@@ -1,7 +1,6 @@
 import { createContext, FC, useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
-import { removeToken, setToken } from "src/utils";
 import "firebase/auth";
 
 const config = {
@@ -15,6 +14,26 @@ interface IAuthContext {
   logout: () => void;
   authenticated: boolean;
 }
+
+const setToken = (token: string) => {
+  fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token }),
+  });
+};
+
+const removeToken = () => {
+  fetch("/api/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  });
+};
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);

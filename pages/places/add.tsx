@@ -9,6 +9,7 @@ import { ViewState } from "react-map-gl";
 import AddPlaceMap from "src/components/AddPlaceMap";
 import { useLocalStorage } from "src/hooks";
 import { useState } from "react";
+import { minWidthXl } from "src/utils";
 
 const Add = () => {
   const router = useRouter();
@@ -23,10 +24,15 @@ const Add = () => {
 
   return (
     <Layout
+      className="flex-col xl:flex-row"
+      leftChildrenClassName="w-full"
       leftChildren={
         <div
-          className="mx-auto overflow-y-scroll p-8"
-          style={{ maxWidth: "780px", height: ViewportFullHeight }}
+          className="mx-auto xl:overflow-y-scroll p-8"
+          style={{
+            maxWidth: "1200px",
+            height: minWidthXl() ? ViewportFullHeight : "auto",
+          }}
         >
           <div className="flex justify-end space-x-4 mt-1">
             <Button asLink href={urls.home}>
@@ -45,6 +51,7 @@ const Add = () => {
           />
         </div>
       }
+      rightChildrenClassName="w-full"
       rightChildren={<AddPlaceMap searchedViewport={searchedViewport} />}
     />
   );

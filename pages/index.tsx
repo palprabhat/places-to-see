@@ -56,6 +56,8 @@ export const Home = () => {
 
   return (
     <Layout
+      className="flex-col-reverse xl:flex-row"
+      leftChildrenClassName="w-full"
       leftChildren={
         <PlaceList
           places={lastData && lastData.places ? lastData.places : []}
@@ -68,6 +70,7 @@ export const Home = () => {
           }
         />
       }
+      rightChildrenClassName="w-full"
       rightChildren={
         <HomeMap
           setDataBounds={setDataBounds}

@@ -1,14 +1,58 @@
 [
   {
     "label": "Art gallery",
-    "value": "art-gallery"
+    "value": "Art gallery"
   },
   {
-    "label": "Campground",
-    "value": "campground"
+    "label": "Beach",
+    "value": "Beach"
+  },
+  {
+    "label": "Hill station",
+    "value": "Hill station"
+  },
+  {
+    "label": "Historical monument",
+    "value": "Historical monument"
+  },
+  {
+    "label": "Hotel",
+    "value": "Hotel"
+  },
+  {
+    "label": "Museum",
+    "value": "Museum"
+  },
+  {
+    "label": "National park",
+    "value": "National park"
+  },
+  {
+    "label": "Point of interest",
+    "value": "Point of interest"
+  },
+  {
+    "label": "Planetarium",
+    "value": "Planetarium"
+  },
+  {
+    "label": "Pub / Bar",
+    "value": "Pub / Bar"
+  },
+  {
+    "label": "Resort",
+    "value": "Resort"
+  },
+  {
+    "label": "Restaurant",
+    "value": "Restaurant"
+  },
+  {
+    "label": "Shopping Mall",
+    "value": "Shopping Mall"
+  },
+  {
+    "label": "Zoo",
+    "value": "Zoo"
   }
-  point-of-interest
-  stadium
-  museum
-  natural-feature
 ]

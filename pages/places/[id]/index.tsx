@@ -4,7 +4,7 @@ import { DELETE_PLACE_QUERY, GET_PLACE_BY_ID_QUERY } from "src/gql";
 import { GetPlaceByIdQuery } from "src/generated/GetPlaceByIdQuery";
 import { GetPlaceByIdQueryVariables } from "src/generated/GetPlaceByIdQuery";
 import { FC, useEffect, useState } from "react";
-import { additionalType } from "src/utils";
+import { additionalType, minWidthXl } from "src/utils";
 import Head from "next/head";
 import { IoChevronBack, IoLocationSharp } from "react-icons/io5";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -51,6 +51,8 @@ const PlaceId: PlaceIdFC = () => {
     GetPlaceByIdQuery,
     GetPlaceByIdQueryVariables
   >(GET_PLACE_BY_ID_QUERY, { variables: { id: (id as string) ?? "" } });
+
+  const isMinWidthXl = minWidthXl();
 
   useEffect(() => {
     if (data && data.place) {
@@ -105,10 +107,15 @@ const PlaceId: PlaceIdFC = () => {
         <title>{place.address} | Places to see</title>
       </Head>
       <Layout
+        className="flex-col xl:flex-row"
+        leftChildrenClassName="w-full"
         leftChildren={
           <div
-            className="overflow-y-scroll p-8 pt-4 mx-auto"
-            style={{ maxWidth: "780px", height: ViewportFullHeight }}
+            className="xl:overflow-y-scroll p-8 pt-4 mx-auto"
+            style={{
+              maxWidth: "1200px",
+              height: isMinWidthXl ? ViewportFullHeight : "auto",
+            }}
           >
             <div className="flex justify-between mt-1">
               {editMode ? (
@@ -173,7 +180,8 @@ const PlaceId: PlaceIdFC = () => {
                 <h2 className="text-3xl">{place.placeName}</h2>
                 <p className="mt-1 text-sm text-gray-400">{place.placeType}</p>
                 <div className="flex items-center mt-2">
-                  <IoLocationSharp className="mr-2" /> {place.address}
+                  <IoLocationSharp className="mr-2 text-lg w-5" />
+                  <span className="flex-1">{place.address}</span>
                 </div>
                 <CloudinaryImage
                   className="rounded-md mt-6"
@@ -185,6 +193,7 @@ const PlaceId: PlaceIdFC = () => {
             )}
           </div>
         }
+        rightChildrenClassName="w-full"
         rightChildren={
           <ViewPlaceMap
             place={place}
