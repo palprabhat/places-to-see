@@ -6,12 +6,13 @@ import Link from "next/link";
 import LocationSearch from "./LocationSearch";
 import { IoLocationSharp } from "react-icons/io5";
 import { minWidthXl } from "src/utils";
+import { useAuth } from "src/contexts";
 
 interface IPlaceList {
   places: GetPlacesQuery_places[];
   focusedPlaceId: string;
   setFocusedPlaceId: Dispatch<SetStateAction<string>>;
-  searchedCoordiantes: ({
+  searchedCoordinates: ({
     latitude,
     longitude,
   }: {
@@ -24,8 +25,9 @@ const PlaceList: FC<IPlaceList> = ({
   places,
   focusedPlaceId,
   setFocusedPlaceId,
-  searchedCoordiantes,
+  searchedCoordinates,
 }) => {
+  const { authenticated } = useAuth();
   return (
     <div
       className="mx-auto xl:overflow-y-scroll p-8"
@@ -38,12 +40,27 @@ const PlaceList: FC<IPlaceList> = ({
         <LocationSearch
           defaultValue=""
           onSelectAddress={({ lat, lng }) =>
-            searchedCoordiantes({ latitude: lat, longitude: lng })
+            searchedCoordinates({ latitude: lat, longitude: lng })
           }
         />
       </div>
 
       <div className="flex flex-col space-y-4">
+        {places.length === 0 && (
+          <div className="flex flex-col items-center rounded-md p-4 overflow-hidden bg-gray-800 border-2 border-solid border-gray-700">
+            <div className="text-xl">Nothing found here!</div>
+            {authenticated ? (
+              <div>
+                Want to share something interesting about this place, click on
+                "Add a new Place"
+              </div>
+            ) : (
+              <div>
+                Want to add something to this place? Please SignIn / SignUp
+              </div>
+            )}
+          </div>
+        )}
         {places.map((place) => (
           <Link key={place.id} href={`${urls.places}/${place.id}`}>
             <a

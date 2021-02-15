@@ -43,7 +43,7 @@ const Add = () => {
             onSubmitted={(id) => {
               router.push(`${urls.places}/${id}`);
             }}
-            searchedCoordiantes={({ latitude, longitude }) =>
+            searchedCoordinates={({ latitude, longitude }) =>
               setSearchedViewport((viewport) => {
                 return { ...viewport, latitude, longitude };
               })

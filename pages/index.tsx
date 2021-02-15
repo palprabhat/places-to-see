@@ -63,7 +63,7 @@ export const Home = () => {
           places={lastData && lastData.places ? lastData.places : []}
           focusedPlaceId={focusedPlaceId}
           setFocusedPlaceId={setFocusedPlaceId}
-          searchedCoordiantes={({ latitude, longitude }) =>
+          searchedCoordinates={({ latitude, longitude }) =>
             setSearchedViewport((viewport) => {
               return { ...viewport, latitude, longitude, zoom: 11 };
             })

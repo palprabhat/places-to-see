@@ -45,7 +45,7 @@ interface IPlace {
 interface IPlaceFormProps {
   place?: IPlace;
   onSubmitted: (id: string) => void;
-  searchedCoordiantes: ({
+  searchedCoordinates: ({
     latitude,
     longitude,
   }: {
@@ -147,7 +147,7 @@ const uploadImage = async (
 const PlaceForm: FC<IPlaceFormProps> = ({
   place,
   onSubmitted,
-  searchedCoordiantes,
+  searchedCoordinates,
 }) => {
   const { addToast } = useToasts();
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -314,78 +314,78 @@ const PlaceForm: FC<IPlaceFormProps> = ({
   const handleUpdatePlace = async (data: IFormData) => {
     setSubmitting(true);
     try {
-      if (place) {
-        let image = place.image;
-
-        if (!watch("publicId")) {
-          const {
-            data: signatureData,
-            errors: signatureErrors,
-          } = await createSignature();
-
-          if (signatureErrors && signatureErrors.length) {
-            signatureErrors.map((error) => {
-              throw new Error(
-                error.message ?? "Something went wrong! Please try again later"
-              );
-            });
-          }
-
-          if (signatureData) {
-            const { signature, timestamp } = signatureData.createImageSignature;
-            const imageData = await uploadImage(
-              data.image[0] as File,
-              signature,
-              timestamp
-            );
-
-            if (imageData.error) {
-              throw new Error(
-                imageData.error.message ??
-                  "Something went wrong! Please try again later"
-              );
-            }
-
-            image = imageData.secure_url;
-          }
-        }
-
-        const { data: placeData, errors: placeErrors } = await updatePlace({
-          variables: {
-            id: place.id,
-            input: {
-              placeName: data.placeName,
-              placeType: data.placeType,
-              description: data.description,
-              address: data.address,
-              image: image,
-              coordinates: {
-                latitude: data.latitude,
-                longitude: data.longitude,
-              },
-            },
-          },
-        });
-
-        if (placeErrors && placeErrors.length) {
-          placeErrors.map((error) => {
-            throw new Error(
-              error.message ?? "Something went wrong! Please try again later"
-            );
-          });
-        }
-
-        if (placeData?.updatePlace?.id) {
-          addToast("Place updated successfully", {
-            appearance: "success",
-          });
-          onSubmitted(placeData.updatePlace.id);
-        } else {
-          throw new Error("Something went wrong! Please try again later");
-        }
-      } else {
+      if (!place) {
         throw new Error("Something went wrong! Please try again later");
       }
+
+      let image = place.image;
+
+      if (!watch("publicId")) {
+        const {
+          data: signatureData,
+          errors: signatureErrors,
+        } = await createSignature();
+
+        if (signatureErrors && signatureErrors.length) {
+          const errors = signatureErrors.map(
+            (error) =>
+              error.message ?? "Something went wrong! Please try again later"
+          );
+          throw new Error(errors.join(", "));
+        }
+
+        if (signatureData) {
+          const { signature, timestamp } = signatureData.createImageSignature;
+          const imageData = await uploadImage(
+            data.image[0] as File,
+            signature,
+            timestamp
+          );
+
+          if (imageData.error) {
+            throw new Error(
+              imageData.error.message ??
+                "Something went wrong! Please try again later"
+            );
+          }
+
+          image = imageData.secure_url;
+        }
+      }
+
+      const { data: placeData, errors: placeErrors } = await updatePlace({
+        variables: {
+          id: place.id,
+          input: {
+            placeName: data.placeName,
+            placeType: data.placeType,
+            description: data.description,
+            address: data.address,
+            image: image,
+            coordinates: {
+              latitude: data.latitude,
+              longitude: data.longitude,
+            },
+          },
+        },
+      });
+
+      if (placeErrors && placeErrors.length) {
+        const errors = placeErrors.map(
+          (error) =>
+            error.message ?? "Something went wrong! Please try again later"
+        );
+        throw new Error(errors.join(", "));
+      }
+
+      if (!placeData?.updatePlace?.id) {
+        throw new Error("Something went wrong! Please try again later");
+      }
+
+      addToast("Place updated successfully", {
+        appearance: "success",
+      });
+      onSubmitted(placeData.updatePlace.id);
     } catch (err) {
       console.error(`😱: ${err}`);
       addToast(err.message ?? "Something went wrong! Please try again later.", {
@@ -425,7 +425,7 @@ const PlaceForm: FC<IPlaceFormProps> = ({
             shouldValidate: true,
             shouldDirty: true,
           });
-          searchedCoordiantes({ latitude: lat, longitude: lng });
+          searchedCoordinates({ latitude: lat, longitude: lng });
         }}
         error={errors?.address || errors?.latitude || errors?.longitude}
       />
